@@ -11,6 +11,12 @@ Builds a two-stage container image:
 
 The result is a ready-to-use m68k cross-compiler accessible via `/opt/amiga/bin`, with `PATH` pre-configured.
 
+## Pre-built image
+
+```sh
+podman pull ghcr.io/jweisner/amiga-buildenv:main
+```
+
 ## Usage
 
 Build the image:
