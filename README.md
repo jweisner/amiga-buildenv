@@ -17,18 +17,22 @@ The result is a ready-to-use m68k cross-compiler accessible via `/opt/amiga/bin`
 podman pull ghcr.io/jweisner/amiga-buildenv:main
 ```
 
-## Usage
+## Building and publishing
 
-Build the image:
+The image is built and pushed to GHCR locally. Requires an existing `podman login ghcr.io` session.
 
 ```sh
-podman build -t amiga-buildenv .
+./build.sh
 ```
+
+This builds the image, tags it as `main` and `sha-<short>`, and pushes both tags to GHCR.
+
+## Usage
 
 Run an interactive shell with your project mounted:
 
 ```sh
-podman run --rm -it -v $(pwd):/work amiga-buildenv
+podman run --rm -it -v $(pwd):/work ghcr.io/jweisner/amiga-buildenv:main
 ```
 
 Inside the container, the full amiga-gcc toolchain is on `PATH`:

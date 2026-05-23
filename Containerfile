@@ -24,7 +24,9 @@ RUN apt-get -y update && \
     apt-get -y install --no-install-recommends \
         make git lhasa \
         libgmp10 libmpfr6 libmpc3 \
-        ca-certificates && \
+        ca-certificates \
+        binutils file \
+        xxd strace diffutils && \
     rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /opt/amiga /opt/amiga
