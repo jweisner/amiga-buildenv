@@ -19,13 +19,34 @@ podman pull ghcr.io/jweisner/amiga-buildenv:main
 
 ## Building and publishing
 
-The image is built and pushed to GHCR locally. Requires an existing `podman login ghcr.io` session.
+Requires an existing `podman login ghcr.io` session.
+
+### All-in-one (single machine)
 
 ```sh
 ./build.sh
 ```
 
-This builds the image, tags it as `main` and `sha-<short>`, and pushes both tags to GHCR.
+Builds both `amd64` and `arm64`, then assembles and pushes the multi-arch manifest tagged `main` and `sha-<short>`.
+
+### Split builds (native build on each machine)
+
+Cross-compilation is slow. Build each arch natively on the appropriate host, then assemble the manifest from either machine.
+
+On Apple Silicon (arm64):
+```sh
+./build.sh arm64
+```
+
+On Linux (amd64):
+```sh
+./build.sh amd64
+```
+
+Once both arch images are pushed, assemble the manifest from either machine:
+```sh
+./build.sh manifest
+```
 
 ## Usage
 
