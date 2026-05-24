@@ -14,39 +14,26 @@ The result is a ready-to-use m68k cross-compiler accessible via `/opt/amiga/bin`
 ## Pre-built image
 
 ```sh
-podman pull ghcr.io/jweisner/amiga-buildenv:main
+podman pull ghcr.io/jweisner/amiga-buildenv:latest
 ```
 
 ## Building and publishing
 
 Requires an existing `podman login ghcr.io` session.
 
-### All-in-one (single machine)
-
 ```sh
 ./build.sh
 ```
 
-Builds both `amd64` and `arm64`, then assembles and pushes the multi-arch manifest tagged `main` and `sha-<short>`.
+Builds the local arch and pushes it tagged `:main` and `:sha-<short>`.
 
-### Split builds (native build on each machine)
+To publish a versioned release:
 
-Cross-compilation is slow. Build each arch natively on the appropriate host, then assemble the manifest from either machine.
-
-On Apple Silicon (arm64):
 ```sh
-./build.sh arm64
+VERSION_TAG=v1.2.3 ./build.sh
 ```
 
-On Linux (amd64):
-```sh
-./build.sh amd64
-```
-
-Once both arch images are pushed, assemble the manifest from either machine:
-```sh
-./build.sh manifest
-```
+This also pushes the `:v1.2.3` and `:latest` tags.
 
 ## Usage
 
