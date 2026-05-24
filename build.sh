@@ -8,6 +8,7 @@ ALL_PLATFORMS=(amd64 arm64)
 MANIFEST_TAGS=("${REGISTRY}/${IMAGE}:main" "${REGISTRY}/${IMAGE}:${SHA_TAG}")
 if [[ -n "${VERSION_TAG:-}" ]]; then
     MANIFEST_TAGS+=("${REGISTRY}/${IMAGE}:${VERSION_TAG}")
+    MANIFEST_TAGS+=("${REGISTRY}/${IMAGE}:latest")
 fi
 
 LOCAL_ARCH="$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')"
@@ -19,7 +20,7 @@ usage() {
     echo "  manifest     Assemble and push the multi-arch manifest from pre-pushed arch images"
     echo "  (no arg)     Build and push the local arch only (${LOCAL_ARCH})"
     echo ""
-    echo "  VERSION_TAG=v1.2.3 $0  Also tag the manifest with a version"
+    echo "  VERSION_TAG=v1.2.3 $0  Also tag the manifest with a version and :latest"
     exit 1
 }
 
