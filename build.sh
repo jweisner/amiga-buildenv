@@ -6,12 +6,17 @@ IMAGE="jweisner/amiga-buildenv"
 SHA_TAG="sha-$(git rev-parse --short HEAD)"
 ALL_PLATFORMS=(amd64 arm64)
 MANIFEST_TAGS=("${REGISTRY}/${IMAGE}:main" "${REGISTRY}/${IMAGE}:${SHA_TAG}")
+if [[ -n "${VERSION_TAG:-}" ]]; then
+    MANIFEST_TAGS+=("${REGISTRY}/${IMAGE}:${VERSION_TAG}")
+fi
 
 usage() {
     echo "Usage: $0 [amd64|arm64|manifest]"
     echo "  amd64|arm64  Build and push a single-arch image"
     echo "  manifest     Assemble and push the multi-arch manifest from pre-pushed arch images"
     echo "  (no arg)     Build all arches and push the manifest"
+    echo ""
+    echo "  VERSION_TAG=v1.2.3 $0  Also tag the manifest with a version"
     exit 1
 }
 
