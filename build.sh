@@ -10,11 +10,14 @@ if [[ -n "${VERSION_TAG:-}" ]]; then
     MANIFEST_TAGS+=("${REGISTRY}/${IMAGE}:${VERSION_TAG}")
 fi
 
+LOCAL_ARCH="$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')"
+
 usage() {
-    echo "Usage: $0 [amd64|arm64|manifest]"
+    echo "Usage: $0 [amd64|arm64|all|manifest]"
     echo "  amd64|arm64  Build and push a single-arch image"
+    echo "  all          Build all arches and push the manifest"
     echo "  manifest     Assemble and push the multi-arch manifest from pre-pushed arch images"
-    echo "  (no arg)     Build all arches and push the manifest"
+    echo "  (no arg)     Build and push the local arch only (${LOCAL_ARCH})"
     echo ""
     echo "  VERSION_TAG=v1.2.3 $0  Also tag the manifest with a version"
     exit 1
@@ -45,9 +48,12 @@ push_manifest() {
     done
 }
 
-case "${1:-all}" in
+case "${1:-local}" in
     amd64|arm64)
         build_arch "$1"
+        ;;
+    local)
+        build_arch "${LOCAL_ARCH}"
         ;;
     manifest)
         push_manifest
